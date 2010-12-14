@@ -1,0 +1,9 @@
+h1. jquery.codabubble
+
+h2. Options
+
+* distance: 10,
+* time: 250,
+* hideDelay: 500,
+* triggerClass: '.trigger',
+* popupClass: '.popup'

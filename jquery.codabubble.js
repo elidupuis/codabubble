@@ -3,14 +3,15 @@
  * http://github.com/elidupuis
  *
  * Copyright 2010, Eli Dupuis
- * Version: 0.4 (Dec 14, 2010)
+ * Version: 0.1 (Dec 14, 2010)
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL (http://creativecommons.org/licenses/GPL/2.0/) licenses.
  * Requires: jQuery v1.4.2 or later
+ * Based heavily on Remy Sharp's snippet at http://jqueryfordesigners.com/coda-popup-bubbles/
  */
 
 (function($) {
 
-  var ver = '0.4';
+  var ver = '0.1';
 
   $.fn.codabubble = function(options) {
 
@@ -42,11 +43,7 @@
            beingShown = true;
 
            // reset position of popup box
-           popup.css({
-             top: -85,
-             left: 0,
-             display: 'block' // brings the popup back in to view
-           })
+           popup.css(opts.popupStyle)
 
            // (we're using chaining on the popup) now animate it's opacity and position
            .animate({
@@ -96,6 +93,11 @@
   	distance: 10,
     time: 250,
     hideDelay: 500,
+    popupStyle: {
+      top: -30,
+      left: 0,
+      display: 'block'
+    },
     triggerClass: '.trigger',
     popupClass: '.popup'
   };

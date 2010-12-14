@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>jquery.codabubble</title>
+	<style type="text/css" media="screen">
+    .bubbleInfo { position: relative; }
+    .appended   { background: salmon; }
+    .popup      { position: absolute; display: none; }
+	</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="jquery.codabubble.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+		$(function(){
+			$('.bubbleInfo').codabubble();
+			
+			$('#add').click(function(){
+			  var html = '<div class="bubbleInfo appended"><p class="cut trigger">+ $3.50 GS fee (appended)</p><div class="popup"><p>Appended via js. Gamestaq charges a small fee to each the buyer and the seller to keep things going.</p></div></div>';
+        $('.bubbleInfo:last').after( html )
+			});
+			$('#update').click(function(){
+			  $('.bubbleInfo').codabubble();
+			});
+			
+		});
+	</script>
+</head>
+
+<body>
+
+	<h1>jquery.codabubble</h1>
+	
+	<div class="bubbleInfo">
+    <p class="cut trigger">+ $1.50 GS fee</p>
+    <div class="popup">
+      <p>Gamestaq charges a small fee to each the buyer and the seller to keep things going.</p>
+    </div>
+  </div>
+
+  <button id="add">Add instance</button>
+  <button id="update">update $.codabubble()</button>
+
+</body>
+</html>

@@ -14,14 +14,18 @@
 	<script src="jquery.codabubble.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
 		$(function(){
-			$('.bubbleInfo').codabubble();
+			$('.bubbleInfo').codabubble({
+		    direction: 'down'
+		  });
 			
 			$('#add').click(function(){
 			  var html = '<div class="bubbleInfo appended"><p class="cut trigger">+ $3.50 GS fee (appended)</p><div class="popup"><p>Appended via js. Gamestaq charges a small fee to each the buyer and the seller to keep things going.</p></div></div>';
         $('.bubbleInfo:last').after( html )
 			});
 			$('#update').click(function(){
-			  $('.bubbleInfo').codabubble();
+			  $('.bubbleInfo').codabubble({
+			    time:500
+			  });
 			});
 			
 		});

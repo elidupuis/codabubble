@@ -11,16 +11,14 @@
 
 (function($) {
 
-  var ver = '0.3';
-    
-  var methods = {
+  var ver = '0.3',
+  methods = {
     init: function( options ) {
       // iterate and reformat each matched element
     	return this.each(function() {
     		var $this = $(this),
     		    opts = $.extend({}, $.fn.codabubble.defaults, options),
             data = $this.data('codabubble');
-
 
         // If the plugin hasn't been initialized yet
         if ( ! data ) {
@@ -36,28 +34,14 @@
             }
           },
           css = defaultCSS[ opts.direction ],
-          animateInCSS, animateOutCSS, cssDirection;
+          directionProperty;
 
           switch ( opts.direction ) {
             case 'down' :
-              animateInCSS = {
-                bottom: '-=' + opts.distance + 'px',
-                opacity: 1
-              };
-              animateOutCSS = {
-                bottom: '-=' + opts.distance + 'px',
-                opacity: 0
-              };
+              directionProperty = 'bottom';
               break;
             default : 
-              animateInCSS = {
-                top: '-=' + opts.distance + 'px',
-                opacity: 1
-              };
-              animateOutCSS = {
-                top: '-=' + opts.distance + 'px',
-                opacity: 0
-              };
+              directionProperty = 'top';
               break;
           };
 
@@ -82,11 +66,13 @@
               } else {
                 beingShown = true;
                // reset position of popup box
-
-               popup.css( css )
-
-               // (we're using chaining on the popup) now animate it's opacity and position
-               .animate(animateInCSS, opts.time, 'swing', function() {
+               
+               var animCSS = {
+                 opacity: 1
+               };
+               animCSS[directionProperty] = '-=' + opts.distance + 'px';
+               
+               popup.css( css ).animate(animCSS, opts.time, 'swing', function() {
                  // once the animation is complete, set the tracker variables
                  beingShown = false;
                  shown = true;
@@ -94,24 +80,27 @@
              }
             },
             mouseout: function () {
-             // reset the timer if we get fired again - avoids double animations
-             if (hideDelayTimer) {
-               clearTimeout(hideDelayTimer);
-             };
+              // reset the timer if we get fired again - avoids double animations
+              if (hideDelayTimer) {
+                clearTimeout(hideDelayTimer);
+              };
             
-             // store the timer so that it can be cleared in the mouseover if required
-             hideDelayTimer = setTimeout(function () {
-               hideDelayTimer = null;
-               popup.animate(animateOutCSS, opts.time, 'swing', function () {
-                 // once the animate is complete, set the tracker variables
-                 shown = false;
-                 // hide the popup entirely after the effect (opacity alone doesn't do the job)
-                 popup.hide();
-               });
-             }, opts.hideDelay);
+              // store the timer so that it can be cleared in the mouseover if required
+              hideDelayTimer = setTimeout(function () {
+                hideDelayTimer = null;
+
+                var animCSS = {
+                  opacity: 0
+                };
+                animCSS[directionProperty] = '-=' + opts.distance + 'px';
+               
+                popup.animate(animCSS, opts.time, 'swing', function () {
+                  shown = false; // once the animate is complete, set the tracker variables
+                  popup.hide();  // hide the popup entirely after the effect (opacity alone doesn't do the job)
+                });
+              }, opts.hideDelay);
             }
           });
-
 
           //  attach
           $(this).data('codabubble', {
@@ -128,7 +117,6 @@
     }
   };
 
-
   $.fn.codabubble = function( method ) {
     if ( methods[method] ) {
       return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
@@ -141,12 +129,12 @@
 
   //	defaults
   $.fn.codabubble.defaults = {
-  	distance: 10,
-    time: 250,
-    hideDelay: 500,
-    direction: 'up',
-    triggerClass: '.trigger',
-    popupClass: '.popup'
+  	distance: 10,             //  distance traveled by bubble during animation.
+    time: 250,                //  milliseconds. duration of the animation.
+    hideDelay: 500,           //  milliseconds. time before bubble fades out (after mouseout)
+    direction: 'up',          //  either 'up' or down'
+    triggerClass: '.trigger', //  class of the trigger (in your markup)
+    popupClass: '.popup'      //  class of the bubble (in your markup)
   };
 
   $.fn.codabubble.ver = function() { return "jquery.codabubble ver. " + ver; };

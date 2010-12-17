@@ -1,9 +1,30 @@
 h1. jquery.codabubble
 
+h2. Usage
+
+h3. HTML structure
+
+<pre>
+<div class="bubbleInfo">
+  <p class="trigger">+ $1.50 GS fee</p>
+  <div class="popup">
+    <p>Gamestaq charges a small fee to each the buyer and the seller to keep things going.</p>
+  </div>
+</div>
+</pre>
+
+h3. jQuery
+
+<pre>
+$('.bubbleInfo').codabubble();
+</pre>
+
+
 h2. Options
 
-* distance: 10,
-* time: 250,
-* hideDelay: 500,
-* triggerClass: '.trigger',
-* popupClass: '.popup'
+* distance: 10,             //  distance traveled by bubble during animation.
+* time: 250,                //  milliseconds. duration of the animation.
+* hideDelay: 500,           //  milliseconds. time before bubble fades out (after mouseout)
+* direction: 'up',          //  either 'up' or down'
+* triggerClass: '.trigger', //  class of the trigger (in your markup)
+* popupClass: '.popup'      //  class of the bubble (in your markup)

@@ -23,13 +23,46 @@
         // If the plugin hasn't been initialized yet
         if ( ! data ) {
 
+          var hideDelayTimer = null,
+              beingShown = false, // tracker
+              shown = false;
+
+          var trigger = $(opts.triggerClass, this),
+              popup = $(opts.popupClass, this).css('opacity', 0);
+
+          // var defaultCSS = {
+          //             'up': {
+          //               top: '-' + popup.height() + 'px',
+          //               display: 'block'
+          //             },
+          //             'down': {
+          //               bottom: '-' + popup.height() + 'px',
+          //               display: 'block'
+          //             },
+          //             'left': {
+          //               left: '-' + popup.width() + 'px',
+          //               display: 'block'
+          //             },
+          //             'right': {
+          //               right: '-' + popup.width() + 'px',
+          //               display: 'block'
+          //             }
+          //           },
           var defaultCSS = {
             'up': {
-              top: -30,
+              top: '-' + opts.offset + 'px',
               display: 'block'
             },
             'down': {
-              bottom: -30,
+              bottom: '-' + opts.offset + 'px',
+              display: 'block'
+            },
+            'left': {
+              left: '-' + opts.offset + 'px',
+              display: 'block'
+            },
+            'right': {
+              right: '-' + opts.offset + 'px',
               display: 'block'
             }
           },
@@ -37,6 +70,12 @@
           directionProperty;
 
           switch ( opts.direction ) {
+            case 'left' :
+              directionProperty = 'left';
+              break;
+            case 'right' :
+              directionProperty = 'right';
+              break;
             case 'down' :
               directionProperty = 'bottom';
               break;
@@ -44,13 +83,6 @@
               directionProperty = 'top';
               break;
           };
-
-          var hideDelayTimer = null,
-              beingShown = false, // tracker
-              shown = false;
-
-          var trigger = $(opts.triggerClass, this),
-              popup = $(opts.popupClass, this).css('opacity', 0);
 
           // set the mouseover and mouseout on both element
           $([trigger.get(0), popup.get(0)]).bind({
@@ -130,9 +162,10 @@
   //	defaults
   $.fn.codabubble.defaults = {
   	distance: 10,             //  distance traveled by bubble during animation.
+  	offset: 0,                //  offset distance 
     time: 250,                //  milliseconds. duration of the animation.
     hideDelay: 500,           //  milliseconds. time before bubble fades out (after mouseout)
-    direction: 'up',          //  either 'up' or down'
+    direction: 'up',          //  either 'left', 'right', down' or 'up'
     triggerClass: '.trigger', //  class of the trigger (in your markup)
     popupClass: '.popup'      //  class of the bubble (in your markup)
   };

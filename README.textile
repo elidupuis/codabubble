@@ -19,12 +19,20 @@ h3. jQuery
 $('.bubbleInfo').codabubble();
 </pre>
 
+<pre>
+$('.bubbleInfo').codabubble({
+    direction: 'right',
+    offset: 250
+});
+</pre>
+
 
 h2. Options
 
 * distance: 10,             //  distance traveled by bubble during animation.
+* offset: 0,                //  offset distance 
 * time: 250,                //  milliseconds. duration of the animation.
 * hideDelay: 500,           //  milliseconds. time before bubble fades out (after mouseout)
-* direction: 'up',          //  either 'up' or down'
+* direction: 'up',          //  either 'left', 'right', down' or 'up'
 * triggerClass: '.trigger', //  class of the trigger (in your markup)
 * popupClass: '.popup'      //  class of the bubble (in your markup)

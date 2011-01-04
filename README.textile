@@ -30,7 +30,7 @@ $('.bubbleInfo').codabubble({
 h2. Options
 
 * distance: 10,             //  distance traveled by bubble during animation.
-* offset: 0,                //  offset distance 
+* offset: 0,                //  offset distance. either an integer of a function that returns an integer
 * time: 250,                //  milliseconds. duration of the animation.
 * hideDelay: 500,           //  milliseconds. time before bubble fades out (after mouseout)
 * direction: 'up',          //  either 'left', 'right', down' or 'up'

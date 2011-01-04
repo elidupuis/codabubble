@@ -3,15 +3,21 @@
  * http://github.com/elidupuis
  *
  * Copyright 2010, Eli Dupuis
- * Version: 0.3
+ * Version: 0.4
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL (http://creativecommons.org/licenses/GPL/2.0/) licenses.
  * Requires: jQuery v1.4.2 or later
  * Based heavily on Remy Sharp's snippet at http://jqueryfordesigners.com/coda-popup-bubbles/
+
+TODO:
+  - destroy function
+  - add smart-direction feature? if direction is set to RIGHT and there's no room for element, make it appear on the left.
  */
+
+
 
 (function($) {
 
-  var ver = '0.3',
+  var ver = '0.4',
   methods = {
     init: function( options ) {
       // iterate and reformat each matched element
@@ -25,50 +31,21 @@
 
           var hideDelayTimer = null,
               beingShown = false, // tracker
-              shown = false;
+              shown = false,
+              trigger = $(opts.triggerClass, this),
+              popup = $(opts.popupClass, this).css('opacity', 0),
+              offset,
+              defaultCss = {},
+              directionProperty;
+          
+          //  determine offset format:    
+          if ( typeof opts.offset === 'function' ) {
+            offset = opts.offset.call(this, popup, $this) + 'px';
+          }else{
+            offset = opts.offset + 'px';
+          };           
 
-          var trigger = $(opts.triggerClass, this),
-              popup = $(opts.popupClass, this).css('opacity', 0);
-
-          // var defaultCSS = {
-          //             'up': {
-          //               top: '-' + popup.height() + 'px',
-          //               display: 'block'
-          //             },
-          //             'down': {
-          //               bottom: '-' + popup.height() + 'px',
-          //               display: 'block'
-          //             },
-          //             'left': {
-          //               left: '-' + popup.width() + 'px',
-          //               display: 'block'
-          //             },
-          //             'right': {
-          //               right: '-' + popup.width() + 'px',
-          //               display: 'block'
-          //             }
-          //           },
-          var defaultCSS = {
-            'up': {
-              top: '-' + opts.offset + 'px',
-              display: 'block'
-            },
-            'down': {
-              bottom: '-' + opts.offset + 'px',
-              display: 'block'
-            },
-            'left': {
-              left: '-' + opts.offset + 'px',
-              display: 'block'
-            },
-            'right': {
-              right: '-' + opts.offset + 'px',
-              display: 'block'
-            }
-          },
-          css = defaultCSS[ opts.direction ],
-          directionProperty;
-
+          // determine desired direction:
           switch ( opts.direction ) {
             case 'left' :
               directionProperty = 'left';
@@ -83,10 +60,14 @@
               directionProperty = 'top';
               break;
           };
+          
+          //  setup default css based on desired direction:
+          defaultCss[directionProperty] = offset;
+          defaultCss['display'] = 'block';
 
-          // set the mouseover and mouseout on both element
+          // attach mouseover/mouseout listeners and functionality:
           $([trigger.get(0), popup.get(0)]).bind({
-            mouseover: function () {
+            'mouseover.codabubble': function () {
               // stops the hide event if we move from the trigger to the popup element
               if (hideDelayTimer) {
                 clearTimeout(hideDelayTimer);
@@ -97,21 +78,21 @@
                 return;
               } else {
                 beingShown = true;
-               // reset position of popup box
-               
-               var animCSS = {
-                 opacity: 1
-               };
-               animCSS[directionProperty] = '-=' + opts.distance + 'px';
-               
-               popup.css( css ).animate(animCSS, opts.time, 'swing', function() {
-                 // once the animation is complete, set the tracker variables
-                 beingShown = false;
-                 shown = true;
-               });
-             }
+
+                // setup animation properties
+                var animCSS = { opacity: 1 };
+                animCSS[directionProperty] = '-=' + opts.distance + 'px';
+
+                // reset position of popup box and animate:               
+                popup.css( defaultCss ).animate(animCSS, opts.time, 'swing', function() {
+                  // once the animation is complete, set the tracker variables
+                  beingShown = false;
+                  shown = true;
+                });
+                
+              }
             },
-            mouseout: function () {
+            'mouseout.codabubble': function () {
               // reset the timer if we get fired again - avoids double animations
               if (hideDelayTimer) {
                 clearTimeout(hideDelayTimer);
@@ -121,9 +102,7 @@
               hideDelayTimer = setTimeout(function () {
                 hideDelayTimer = null;
 
-                var animCSS = {
-                  opacity: 0
-                };
+                var animCSS = { opacity: 0 };
                 animCSS[directionProperty] = '-=' + opts.distance + 'px';
                
                 popup.animate(animCSS, opts.time, 'swing', function () {
@@ -134,7 +113,7 @@
             }
           });
 
-          //  attach
+          //  attach data:
           $(this).data('codabubble', {
             target : $this,
             opts: opts
@@ -143,9 +122,9 @@
         };
       });
     },
-    update: function() {
+    destroy: function() {
       // to be implemented....
-      if(window.console) window.console.log('update called.');
+      if(window.console) window.console.log('destroy called.');
     }
   };
 
@@ -162,7 +141,7 @@
   //	defaults
   $.fn.codabubble.defaults = {
   	distance: 10,             //  distance traveled by bubble during animation.
-  	offset: 0,                //  offset distance 
+  	offset: 0,                //  offset distance. either an integer of a function that returns an integer
     time: 250,                //  milliseconds. duration of the animation.
     hideDelay: 500,           //  milliseconds. time before bubble fades out (after mouseout)
     direction: 'up',          //  either 'left', 'right', down' or 'up'

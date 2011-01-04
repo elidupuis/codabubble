@@ -16,7 +16,7 @@
         $(function(){
             $('.bubbleInfo').codabubble({
                 direction: 'down',
-                offset: 50
+                offset: 30
             });
 			
             $('#add').click(function(){
@@ -26,7 +26,10 @@
 		
             $('#update').click(function(){
                 $('.bubbleInfo').codabubble({
-                    direction: 'right'
+                    direction: 'right',
+                    offset: function(popup, container){
+                        return -popup.outerWidth();
+                    }
                 });
             });
 

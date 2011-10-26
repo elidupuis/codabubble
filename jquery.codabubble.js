@@ -111,7 +111,8 @@ TODO:
                 });
               }, opts.hideDelay);
             }
-          });
+          }).trigger('mouseout.codabubble');
+          
 
           //  attach data:
           $(this).data('codabubble', {

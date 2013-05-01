@@ -147,7 +147,9 @@ TODO:
     hideDelay: 500,           //  milliseconds. time before bubble fades out (after mouseout)
     direction: 'up',          //  either 'left', 'right', down' or 'up'
     triggerClass: '.trigger', //  class of the trigger (in your markup)
-    popupClass: '.popup'      //  class of the bubble (in your markup)
+    popupClass: '.popup',     //  class of the bubble (in your markup)
+    // dynamic: true,            //  if true, dynamic content can be passed to the bubble,
+    content: false            //  if truthy, the html returned will be shown in the bubble.
   };
 
   $.fn.codabubble.ver = function() { return "jquery.codabubble ver. " + ver; };

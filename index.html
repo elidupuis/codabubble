@@ -10,28 +10,17 @@
     .appended   { background: salmon; }
     .popup      { background: rgba(0,0,0,0.6); color: #fff; padding: 0.5em; position: absolute; display: none; width: 300px; }
 	</style>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="jquery.codabubble.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
-        $(function(){
-            $('.bubbleInfo').codabubble({
-                direction: 'down',
-                offset: 30
-            });
+    $(function(){
+        $('.codabubble').codabubble({
+            // direction: 'down',
+            // offset: 30,  
+            dynamic: true
+        });
 			
-            $('#add').click(function(){
-                var html = '<div class="bubbleInfo appended"><p class="cut trigger">+ $3.50 GS fee (appended)</p><div class="popup"><p>Appended via js. Gamestaq charges a small fee to each the buyer and the seller to keep things going.</p></div></div>';
-                $('.bubbleInfo:last').after( html )
-            });
-		
-            $('#update').click(function(){
-                $('.bubbleInfo').codabubble({
-                    direction: 'right',
-                    offset: function(popup, container){
-                        return -popup.outerWidth();
-                    }
-                });
-            });
+          
 
 		});
 	</script>
@@ -41,15 +30,15 @@
 
 	<h1>jquery.codabubble</h1>
 	
-	<div class="bubbleInfo">
-    <p class="cut trigger">+ $1.50 GS fee</p>
-    <div class="popup">
-      <p>Gamestaq charges a small fee to each the buyer and the seller to keep things going.</p>
-    </div>
+	<p class="codabubble">This is the trigger element!</p>
+
+  <div class="popup">
+    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+    <p><a href="http://google.com">User Interaction!</a></p>
   </div>
 
-  <button id="add">Add instance</button>
-  <button id="update">update $.codabubble()</button>
+  <!-- <button id="add">Add instance</button>
+  <button id="update">update $.codabubble()</button>         -->
 
 </body>
 </html>
